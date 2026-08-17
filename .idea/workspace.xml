@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="110a38a3-6569-41bb-ac52-f86613ce9907" name="Changes" comment="aaasd">
-      <change afterPath="$PROJECT_DIR$/docker/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker/mosquitto/config/mosquitto.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/documentos/vision.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/down.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/receive-temp.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/send-temp.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/stop.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/up.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/subscriber/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/MqttSubscriber.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="110a38a3-6569-41bb-ac52-f86613ce9907" name="Changes" comment="aaasd" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
