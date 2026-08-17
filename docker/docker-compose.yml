@@ -1,0 +1,37 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: ioteste-mosquitto
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-log:/mosquitto/log
+    restart: unless-stopped
+    networks:
+      - ioteste-net
+
+  subscriber:
+    build:
+      context: ../src/subscriber
+      dockerfile: Dockerfile
+    container_name: ioteste-subscriber
+    depends_on:
+      - mosquitto
+    environment:
+      MQTT_BROKER_HOST: mosquitto
+      MQTT_BROKER_PORT: 1883
+      MQTT_TOPIC: "shellies/#"
+      MQTT_CLIENT_ID: ioteste-subscriber
+    restart: unless-stopped
+    networks:
+      - ioteste-net
+
+networks:
+  ioteste-net:
+    driver: bridge
+
+volumes:
+  mosquitto-data:
+  mosquitto-log:
