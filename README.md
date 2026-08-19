@@ -136,7 +136,7 @@ Esto valida que el broker, el publisher y el suscriptor Java están correctament
 
 ## Proyecto Jira
 
-Tablero del equipo: `<PEGAR_LINK_JIRA_ACÁ>`
+Tablero del equipo: `https://estudiantes-team-luofpxgu.atlassian.net/?continue=https%3A%2F%2Festudiantes-team-luofpxgu.atlassian.net%2Fwelcome%2Fsoftware%3FprojectId%3D10000&atlOrigin=eyJpIjoiOThhMjllOWZlMDUxNGE2Zjk1NGRlYTNkMWEzOTM3N2UiLCJwIjoiamlyYS1zb2Z0d2FyZSJ9`
 
 ## Próximos pasos (Iteración 2)
 
