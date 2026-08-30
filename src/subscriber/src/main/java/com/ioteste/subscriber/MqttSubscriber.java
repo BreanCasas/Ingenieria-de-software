@@ -7,16 +7,15 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Suscriptor MQTT mínimo — primer componente Java del producto IoTEste.
  *
  * Se conecta al broker Mosquitto, se suscribe a un topic (por defecto
  * "shellies/#") e imprime en consola cada mensaje recibido junto con
- * el topic y un timestamp.
+ * el topic, usando un logger (SLF4J + Logback) en vez de System.out.
  *
  * Configuración vía variables de entorno (con valores por defecto para
  * ejecución local fuera de Docker):
@@ -27,8 +26,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class MqttSubscriber {
 
-    private static final DateTimeFormatter TS_FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final Logger log = LoggerFactory.getLogger(MqttSubscriber.class);
 
     public static void main(String[] args) {
         String host = getEnv("MQTT_BROKER_HOST", "localhost");
@@ -38,10 +36,10 @@ public class MqttSubscriber {
 
         String brokerUrl = "tcp://" + host + ":" + port;
 
-        System.out.println("=== IoTEste MQTT Subscriber ===");
-        System.out.println("Broker: " + brokerUrl);
-        System.out.println("Topic : " + topic);
-        System.out.println("================================");
+        log.info("=== IoTEste MQTT Subscriber ===");
+        log.info("Broker: {}", brokerUrl);
+        log.info("Topic : {}", topic);
+        log.info("================================");
 
         try {
             MqttClient client = new MqttClient(brokerUrl, clientId, new MemoryPersistence());
@@ -55,13 +53,13 @@ public class MqttSubscriber {
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable cause) {
-                    System.out.println("[" + now() + "] Conexión perdida: " + cause.getMessage());
+                    log.warn("Conexión perdida: {}", cause.getMessage());
                 }
 
                 @Override
                 public void messageArrived(String receivedTopic, MqttMessage message) {
                     String payload = new String(message.getPayload());
-                    System.out.printf("[%s] topic=%s payload=%s%n", now(), receivedTopic, payload);
+                    log.info("topic={} payload={}", receivedTopic, payload);
                 }
 
                 @Override
@@ -70,17 +68,16 @@ public class MqttSubscriber {
                 }
             });
 
-            System.out.println("Conectando al broker...");
+            log.info("Conectando al broker...");
             client.connect(options);
-            System.out.println("Conectado. Suscribiendo a: " + topic);
+            log.info("Conectado. Suscribiendo a: {}", topic);
 
             client.subscribe(topic);
-            System.out.println("Suscripción activa. Esperando mensajes...\n");
+            log.info("Suscripción activa. Esperando mensajes...");
 
-            // Mantiene el proceso vivo (el callback maneja los mensajes de forma asíncrona)
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
-                    System.out.println("\nCerrando conexión MQTT...");
+                    log.info("Cerrando conexión MQTT...");
                     client.disconnect();
                 } catch (MqttException e) {
                     // Ignorado en el shutdown
@@ -90,8 +87,7 @@ public class MqttSubscriber {
             Thread.currentThread().join();
 
         } catch (MqttException e) {
-            System.err.println("Error MQTT: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Error MQTT: {}", e.getMessage(), e);
             System.exit(1);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -101,9 +97,5 @@ public class MqttSubscriber {
     private static String getEnv(String key, String defaultValue) {
         String value = System.getenv(key);
         return (value == null || value.isBlank()) ? defaultValue : value;
-    }
-
-    private static String now() {
-        return LocalDateTime.now().format(TS_FORMAT);
     }
 }

@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="110a38a3-6569-41bb-ac52-f86613ce9907" name="Changes" comment="hola?">
+      <change afterPath="$PROJECT_DIR$/src/subscriber/src/main/resources/logback.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/vision.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/vision.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/subscriber/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/src/subscriber/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/subscriber/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/subscriber/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/MqttSubscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/MqttSubscriber.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +33,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/BreanCasas/Ingenieria-de-software.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/BreanCasas/iiss-2026-grupo-1.git&quot;,
     &quot;accountId&quot;: &quot;17c3ee57-2a58-4361-809d-4abaf68cff6d&quot;
   }
 }</component>
