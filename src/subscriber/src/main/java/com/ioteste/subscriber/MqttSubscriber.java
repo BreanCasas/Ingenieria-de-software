@@ -1,5 +1,11 @@
 package com.ioteste.subscriber;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ioteste.subscriber.model.Room;
+import com.ioteste.subscriber.model.TemperatureReading;
+import com.ioteste.subscriber.repository.RoomRepository;
+import com.ioteste.subscriber.repository.TemperatureReadingRepository;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -10,36 +16,57 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+
 /**
- * Suscriptor MQTT mínimo — primer componente Java del producto IoTEste.
+ * Consumidor de eventos de temperatura — extensión del suscriptor
+ * MQTT mínimo de la Iteración 1.
  *
- * Se conecta al broker Mosquitto, se suscribe a un topic (por defecto
- * "shellies/#") e imprime en consola cada mensaje recibido junto con
- * el topic, usando un logger (SLF4J + Logback) en vez de System.out.
+ * Se conecta al broker Mosquitto, se suscribe a los topics de
+ * termostatos simulados, despliega cada evento en consola (vía logger)
+ * y además persiste cada lectura en el histórico de la habitación
+ * correspondiente.
  *
- * Configuración vía variables de entorno (con valores por defecto para
- * ejecución local fuera de Docker):
- *   MQTT_BROKER_HOST  (default: localhost)
- *   MQTT_BROKER_PORT  (default: 1883)
- *   MQTT_TOPIC        (default: shellies/#)
- *   MQTT_CLIENT_ID    (default: ioteste-subscriber)
+ * El mensaje esperado tiene el formato:
+ *   Topic:   ht-sim-room1/status/temperature:0
+ *   Payload: {"id":0,"tC":21.4,"tF":70.5,"ts":1786840680.0}
+ *
+ * Configuración vía variables de entorno:
+ *   MQTT_BROKER_HOST   (default: localhost)
+ *   MQTT_BROKER_PORT   (default: 1883)
+ *   MQTT_TOPIC         (default: ht-sim-+/status/temperature:+)
+ *   MQTT_CLIENT_ID     (default: ioteste-subscriber)
+ *   ROOMS_FILE         (default: /data/rooms.json)
+ *   READINGS_DIR       (default: /data/readings)
  */
 public class MqttSubscriber {
 
     private static final Logger log = LoggerFactory.getLogger(MqttSubscriber.class);
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void main(String[] args) {
         String host = getEnv("MQTT_BROKER_HOST", "localhost");
         String port = getEnv("MQTT_BROKER_PORT", "1883");
-        String topic = getEnv("MQTT_TOPIC", "shellies/#");
+        String topic = getEnv("MQTT_TOPIC", "ht-sim-+/status/temperature:+");
         String clientId = getEnv("MQTT_CLIENT_ID", "ioteste-subscriber");
+        Path roomsFile = Path.of(getEnv("ROOMS_FILE", "/data/rooms.json"));
+        Path readingsDir = Path.of(getEnv("READINGS_DIR", "/data/readings"));
 
         String brokerUrl = "tcp://" + host + ":" + port;
 
-        log.info("=== IoTEste MQTT Subscriber ===");
+        RoomRepository roomRepository = new RoomRepository(roomsFile);
+        TemperatureReadingRepository readingRepository = new TemperatureReadingRepository(readingsDir);
+        List<Room> rooms = roomRepository.findAll();
+
+        log.info("=== IoTEste EcoWarm - Consumidor de Eventos ===");
         log.info("Broker: {}", brokerUrl);
         log.info("Topic : {}", topic);
-        log.info("================================");
+        log.info("Habitaciones cargadas: {}", rooms.size());
+        log.info("================================================");
 
         try {
             MqttClient client = new MqttClient(brokerUrl, clientId, new MemoryPersistence());
@@ -58,8 +85,7 @@ public class MqttSubscriber {
 
                 @Override
                 public void messageArrived(String receivedTopic, MqttMessage message) {
-                    String payload = new String(message.getPayload());
-                    log.info("topic={} payload={}", receivedTopic, payload);
+                    handleMessage(receivedTopic, message, rooms, readingRepository);
                 }
 
                 @Override
@@ -73,7 +99,7 @@ public class MqttSubscriber {
             log.info("Conectado. Suscribiendo a: {}", topic);
 
             client.subscribe(topic);
-            log.info("Suscripción activa. Esperando mensajes...");
+            log.info("Suscripción activa. Esperando eventos de temperatura...");
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
@@ -92,6 +118,73 @@ public class MqttSubscriber {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    /**
+     * Procesa un mensaje entrante: lo despliega en el log, identifica
+     * a qué habitación corresponde (según el prefijo del topic y el
+     * thermostatId configurado) y persiste la lectura si corresponde
+     * a una habitación conocida.
+     */
+    private static void handleMessage(
+            String receivedTopic,
+            MqttMessage message,
+            List<Room> rooms,
+            TemperatureReadingRepository readingRepository
+    ) {
+        String payload = new String(message.getPayload());
+        log.info("topic={} payload={}", receivedTopic, payload);
+
+        try {
+            JsonNode json = mapper.readTree(payload);
+            double tC = json.get("tC").asDouble();
+            double tF = json.get("tF").asDouble();
+            double ts = json.get("ts").asDouble();
+
+            String thermostatId = extractThermostatId(receivedTopic);
+            Optional<Room> room = findRoomByThermostatId(rooms, thermostatId);
+
+            if (room.isEmpty()) {
+                log.warn("No se encontró habitación asociada al termostato '{}' (topic={}). Lectura descartada.",
+                        thermostatId, receivedTopic);
+                return;
+            }
+
+            TemperatureReading reading = new TemperatureReading(
+                    room.get().id(),
+                    tC,
+                    tF,
+                    ts,
+                    Instant.now()
+            );
+
+            readingRepository.append(reading);
+            log.info("Lectura persistida: room={} tC={} tF={}", room.get().id(), tC, tF);
+
+        } catch (IOException e) {
+            log.error("No se pudo parsear el payload como JSON: {}", e.getMessage());
+        } catch (NullPointerException e) {
+            log.error("Payload con formato inesperado (faltan campos tC/tF/ts): {}", payload);
+        }
+    }
+
+    /**
+     * Extrae el identificador del termostato a partir del topic.
+     * Ejemplo: "ht-sim-room1/status/temperature:0" -> "ht-sim-room1"
+     */
+    private static String extractThermostatId(String topic) {
+        int slashIndex = topic.indexOf('/');
+        return slashIndex >= 0 ? topic.substring(0, slashIndex) : topic;
+    }
+
+    /**
+     * Busca, entre las habitaciones configuradas, aquella cuyo
+     * thermostatId coincida con el identificador recibido.
+     */
+    private static Optional<Room> findRoomByThermostatId(List<Room> rooms, String thermostatId) {
+        return rooms.stream()
+                .filter(r -> r.thermostatId().equals(thermostatId))
+                .findFirst();
     }
 
     private static String getEnv(String key, String defaultValue) {

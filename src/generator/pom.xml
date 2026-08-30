@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ioteste</groupId>
-    <artifactId>subscriber</artifactId>
+    <artifactId>generator</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
@@ -30,23 +30,17 @@
             <version>1.5.13</version>
         </dependency>
 
-        <!-- Jackson: serialización/deserialización JSON -->
+        <!-- Jackson: serialización JSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.18.2</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.18.2</version>
-        </dependency>
     </dependencies>
 
     <build>
-        <finalName>subscriber</finalName>
+        <finalName>generator</finalName>
         <plugins>
-            <!-- Empaqueta el jar con todas las dependencias incluidas (fat jar) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -54,7 +48,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.ioteste.subscriber.MqttSubscriber</mainClass>
+                            <mainClass>com.ioteste.generator.EventGenerator</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
