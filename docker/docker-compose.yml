@@ -22,8 +22,30 @@ services:
     environment:
       MQTT_BROKER_HOST: mosquitto
       MQTT_BROKER_PORT: 1883
-      MQTT_TOPIC: "shellies/#"
+      MQTT_TOPIC: "ht-sim-+/status/temperature:+"
       MQTT_CLIENT_ID: ioteste-subscriber
+      ROOMS_FILE: /data/rooms.json
+      READINGS_DIR: /data/readings
+    volumes:
+      - ./data/rooms.json:/data/rooms.json:ro
+      - readings-data:/data/readings
+    restart: unless-stopped
+    networks:
+      - ioteste-net
+
+  generator:
+    build:
+      context: ../src/generator
+      dockerfile: Dockerfile
+    container_name: ioteste-generator
+    depends_on:
+      - mosquitto
+      - subscriber
+    environment:
+      MQTT_BROKER_HOST: mosquitto
+      MQTT_BROKER_PORT: 1883
+      MQTT_CLIENT_ID: ioteste-generator
+      GENERATOR_INTERVAL_MS: 10000
     restart: unless-stopped
     networks:
       - ioteste-net
@@ -35,3 +57,4 @@ networks:
 volumes:
   mosquitto-data:
   mosquitto-log:
+  readings-data:

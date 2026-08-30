@@ -5,26 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="110a38a3-6569-41bb-ac52-f86613ce9907" name="Changes" comment="hola?">
-      <change afterPath="$PROJECT_DIR$/docker/Data/rooms.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/metodologia.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/producto/caracteristicas.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/producto/escenarios.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/producto/historias.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/generator/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/generator/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/generator/src/main/java/com/ioteste/generator/EventGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/generator/src/main/resources/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/model/Room.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/model/TemperatureReading.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/repository/RoomRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/repository/TemperatureReadingRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Ingenieria-de-software.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/maven.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/build.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/subscriber/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/subscriber/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/MqttSubscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/MqttSubscriber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/Data/rooms.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
