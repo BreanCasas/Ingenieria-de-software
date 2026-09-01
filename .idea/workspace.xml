@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="110a38a3-6569-41bb-ac52-f86613ce9907" name="Changes" comment="amooor, contestame el telefono, que yo quiero estar contigo una noche mas">
+      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/producto/licencias.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/data/rooms.json" beforeDir="false" afterPath="$PROJECT_DIR$/docker/data/rooms.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/MqttSubscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/MqttSubscriber.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
