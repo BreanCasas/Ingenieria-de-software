@@ -22,7 +22,7 @@ services:
     environment:
       MQTT_BROKER_HOST: mosquitto
       MQTT_BROKER_PORT: 1883
-      MQTT_TOPIC: "ht-sim-+/status/temperature:+"
+      MQTT_TOPIC: "+/status/#"
       MQTT_CLIENT_ID: ioteste-subscriber
       ROOMS_FILE: /data/rooms.json
       READINGS_DIR: /data/readings

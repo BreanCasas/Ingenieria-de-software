@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="110a38a3-6569-41bb-ac52-f86613ce9907" name="Changes" comment="hola?">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/maven.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/build.sh" afterDir="false" />
+    <list default="true" id="110a38a3-6569-41bb-ac52-f86613ce9907" name="Changes" comment="amooor, contestame el telefono, que yo quiero estar contigo una noche mas">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/Data/rooms.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/data/rooms.json" beforeDir="false" afterPath="$PROJECT_DIR$/docker/data/rooms.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/MqttSubscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/subscriber/src/main/java/com/ioteste/subscriber/MqttSubscriber.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,6 +121,7 @@
     <MESSAGE value="a" />
     <MESSAGE value="aaasd" />
     <MESSAGE value="hola?" />
-    <option name="LAST_COMMIT_MESSAGE" value="hola?" />
+    <MESSAGE value="amooor, contestame el telefono, que yo quiero estar contigo una noche mas" />
+    <option name="LAST_COMMIT_MESSAGE" value="amooor, contestame el telefono, que yo quiero estar contigo una noche mas" />
   </component>
 </project>

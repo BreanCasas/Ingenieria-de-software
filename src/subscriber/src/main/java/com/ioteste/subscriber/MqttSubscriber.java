@@ -51,7 +51,7 @@ public class MqttSubscriber {
     public static void main(String[] args) {
         String host = getEnv("MQTT_BROKER_HOST", "localhost");
         String port = getEnv("MQTT_BROKER_PORT", "1883");
-        String topic = getEnv("MQTT_TOPIC", "ht-sim-+/status/temperature:+");
+        String topic = getEnv("MQTT_TOPIC", "+/status/#");
         String clientId = getEnv("MQTT_CLIENT_ID", "ioteste-subscriber");
         Path roomsFile = Path.of(getEnv("ROOMS_FILE", "/data/rooms.json"));
         Path readingsDir = Path.of(getEnv("READINGS_DIR", "/data/readings"));
